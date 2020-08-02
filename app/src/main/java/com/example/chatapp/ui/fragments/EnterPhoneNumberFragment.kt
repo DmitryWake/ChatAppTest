@@ -31,16 +31,22 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
                         dataMap[CHILD_PHONE] = phoneNumber
                         dataMap[CHILD_USERNAME] = uid
 
-                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap).addOnCompleteListener {task ->
-                            if (task.isSuccessful) {
-                                showToast("Добро пожаловать")
-                                (activity as RegisterActivity).replaceActivity(MainActivity())
-                            } else {
-                                showToast(task.exception?.message.toString())
+                        REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                            .addOnFailureListener {
+                                showToast(it.message.toString())
                             }
-                        }
-                    }
-                    else {
+                            .addOnSuccessListener {
+                                REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
+                                    .updateChildren(dataMap)
+                                    .addOnSuccessListener {
+                                        showToast("Добро пожаловать")
+                                        (activity as RegisterActivity).replaceActivity(MainActivity())
+                                    }
+                                    .addOnFailureListener {
+                                        showToast(it.message.toString())
+                                    }
+                            }
+                    } else {
                         showToast(it.exception?.message.toString())
                     }
                 }
@@ -55,15 +61,15 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             }
 
         }
-        register_btn_next.setOnClickListener{
+        register_btn_next.setOnClickListener {
             sendCode()
         }
     }
+
     private fun sendCode() {
         if (register_input_phone_number.text.toString().isEmpty()) {
             showToast(getString(R.string.register_toast_enter_phone))
-        }
-        else {
+        } else {
             authUser()
         }
     }
