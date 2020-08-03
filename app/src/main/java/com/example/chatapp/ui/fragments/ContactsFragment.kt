@@ -52,20 +52,22 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                 refUsers = REF_DATABASE_ROOT.child(NODE_USERS).child(model.id)
                 refUsersListner = AppValueEventListener {
                     val contact = it.getCommonModel()
-                    holder.name.text = contact.fullname
+                    if (contact.fullname.isEmpty()) {
+                        holder.name.text = model.fullname
+                    } else holder.name.text = contact.fullname
                     holder.status.text = contact.state
                     holder.photo.downloadAndSetImage(contact.photoUrl)
                     holder.itemView.setOnClickListener {
-                        replaceFragment(SingleChatFragment(contact))
+                        replaceFragment(SingleChatFragment(model))
                     }
                 }
                 refUsers.addValueEventListener(refUsersListner)
                 mapListners[refUsers] = refUsersListner
-                }
             }
+        }
         recyclerView.adapter = adapter
         adapter.startListening()
-        }
+    }
 
     class ContactsHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.contact_fullname
