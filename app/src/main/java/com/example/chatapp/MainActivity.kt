@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var toolbar: Toolbar
+    lateinit var toolbar: Toolbar
 
     lateinit var appDrawer: AppDrawer
 
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFields() {
         toolbar = binding.mainToolBar
-        appDrawer = AppDrawer(this, toolbar)
+        appDrawer = AppDrawer()
     }
 
     override fun onStop() {

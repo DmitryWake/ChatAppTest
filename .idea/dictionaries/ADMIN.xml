@@ -2,6 +2,7 @@
   <dictionary name="ADMIN">
     <words>
       <w>chatapp</w>
+      <w>fullname</w>
     </words>
   </dictionary>
 </component>
