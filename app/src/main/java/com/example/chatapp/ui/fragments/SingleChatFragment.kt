@@ -3,18 +3,41 @@ package com.example.chatapp.ui.fragments
 import android.view.View
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
-import com.example.chatapp.utilities.APP_ACTIVITY
+import com.example.chatapp.models.UserModel
+import com.example.chatapp.utilities.*
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.toolbar_info.view.*
 
 
-class SingleChatFragment(contact: CommonModel) : BaseFragment(R.layout.fragment_single_chat) {
+class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layout.fragment_single_chat) {
+
+    private lateinit var listenerInfoToolbar: AppValueEventListener
+    private lateinit var receivingUser: UserModel
+    private lateinit var toolbarInfo: View
+    private lateinit var refUser: DatabaseReference
+
     override fun onResume() {
         super.onResume()
-        APP_ACTIVITY.toolbar.toolbar_info.visibility = View.VISIBLE
+        toolbarInfo = APP_ACTIVITY.toolbar.toolbar_info
+        toolbarInfo.visibility = View.VISIBLE
+        listenerInfoToolbar = AppValueEventListener {
+            receivingUser = it.getUserModel()
+            initInfoToolbar()
+        }
+        refUser = REF_DATABASE_ROOT.child(NODE_USERS).child(contact.id)
+        refUser.addValueEventListener(listenerInfoToolbar)
+    }
+
+    private fun initInfoToolbar() {
+        toolbarInfo.toolbar_chat_image.downloadAndSetImage(receivingUser.photoUrl)
+        toolbarInfo.toolbar_chat_fullname.text = receivingUser.fullname
+        toolbarInfo.toolbar_chat_status.text = receivingUser.state
     }
 
     override fun onPause() {
         super.onPause()
-        APP_ACTIVITY.toolbar.toolbar_info.visibility = View.GONE
+        toolbarInfo.visibility = View.GONE
+        refUser.removeEventListener(listenerInfoToolbar)
     }
 }

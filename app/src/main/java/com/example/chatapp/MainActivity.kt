@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.chatapp.activities.RegisterActivity
 import com.example.chatapp.databinding.ActivityMainBinding
-import com.example.chatapp.models.User
 import com.example.chatapp.ui.objects.AppDrawer
 import com.example.chatapp.ui.fragments.ChatFragment
 import com.example.chatapp.utilities.*
