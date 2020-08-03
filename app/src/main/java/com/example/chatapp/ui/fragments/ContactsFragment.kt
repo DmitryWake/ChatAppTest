@@ -22,6 +22,8 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
     private lateinit var adapter: FirebaseRecyclerAdapter<CommonModel, ContactsHolder>
     private lateinit var refContacts: DatabaseReference
     private lateinit var refUsers: DatabaseReference
+    private lateinit var refUsersListner: AppValueEventListener
+    private var mapListners = hashMapOf<DatabaseReference, AppValueEventListener>()
 
     override fun onResume() {
         super.onResume()
@@ -49,17 +51,19 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                 model: CommonModel
             ) {
                 refUsers = REF_DATABASE_ROOT.child(NODE_USERS).child(model.id)
-                refUsers.addValueEventListener(AppValueEventListener {
+                refUsersListner = AppValueEventListener {
                     val contact = it.getCommonModel()
                     holder.name.text = contact.fullname
                     holder.status.text = contact.state
                     holder.photo.downloadAndSetImage(contact.photoUrl)
-                })
+                }
+                refUsers.addValueEventListener(refUsersListner)
+                mapListners[refUsers] = refUsersListner
+                }
             }
-        }
         recyclerView.adapter = adapter
         adapter.startListening()
-    }
+        }
 
     class ContactsHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.contact_fullname
@@ -70,5 +74,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
     override fun onPause() {
         super.onPause()
         adapter.stopListening()
+        println()
+        mapListners.forEach {
+            it.key.removeEventListener(it.value)
+        }
     }
 }
