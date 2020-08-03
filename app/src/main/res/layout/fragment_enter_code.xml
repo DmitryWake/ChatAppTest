@@ -29,7 +29,7 @@
             app:layout_constraintTop_toBottomOf="@id/register_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/verticalMargin"/>
+            android:layout_margin="@dimen/app_small_margin"/>
 
     <TextView
             android:id="@+id/register_text_we_send"
@@ -38,7 +38,7 @@
             style="@style/smallText"
             android:text="@string/register_text_we_send"
             app:layout_constraintTop_toBottomOf="@id/register_text_enter_code"
-            android:layout_margin="@dimen/verticalMargin"
+            android:layout_margin="@dimen/app_small_margin"
             android:gravity="center"/>
 
     <EditText

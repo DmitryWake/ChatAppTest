@@ -5,10 +5,12 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorAccentDark">#D1CDCD</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorGreen">#DA86D889</color>
     <color name="colorGrey">#938F8F</color>
+    <color name="colorBlueWish">#86023863</color>
 
     <!-- Material DEFAULT colors -->
-    <color name="material_drawer_primary">#2196F3</color>
+    <color name="material_drawer_primary">#3BA8FF</color>
     <color name="material_drawer_primary_dark">#1976D2</color>
     <color name="material_drawer_primary_light">#BBDEFB</color>
     <color name="material_drawer_accent">#FF4081</color>

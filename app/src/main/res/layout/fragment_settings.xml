@@ -20,11 +20,11 @@
                 android:layout_height="@dimen/settings_user_photo_height"
                 app:civ_circle_background_color="@color/colorPrimary"
                 android:src="@drawable/default_photo"
-                android:layout_marginStart="@dimen/horizontal_margin"
+                android:layout_marginStart="@dimen/app_margin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="@dimen/horizontal_margin"/>
+                android:layout_marginLeft="@dimen/app_margin"/>
 
         <TextView
                 android:id="@+id/settings_full_name"
@@ -36,9 +36,9 @@
                 app:layout_constraintStart_toEndOf="@+id/settings_user_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/settings_user_photo"
-                android:layout_marginTop="@dimen/verticalMargin"
-                android:layout_marginStart="@dimen/horizontal_margin"
-                android:layout_marginLeft="@dimen/horizontal_margin"/>
+                android:layout_marginTop="@dimen/app_small_margin"
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginLeft="@dimen/app_margin"/>
 
         <TextView
                 android:id="@+id/settings_status"
@@ -64,8 +64,8 @@
             android:textSize="@dimen/smallText"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/settings_header_block"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginTop="@dimen/vertical_large_margin"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -150,10 +150,10 @@
             app:civ_circle_background_color="@color/colorAccent"
             app:civ_border_color="@color/colorGrey"
             android:src="@drawable/ic_camera"
-            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginEnd="@dimen/app_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/settings_header_block"
             app:layout_constraintTop_toBottomOf="@+id/settings_header_block"
-            android:layout_marginRight="@dimen/horizontal_margin"/>
+            android:layout_marginRight="@dimen/app_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
