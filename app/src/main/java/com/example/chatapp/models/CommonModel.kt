@@ -1,11 +1,16 @@
 package com.example.chatapp.models
 
-data class CommonModel (
-    val id:String = "",
-    var username:String = "",
+data class CommonModel(
+    val id: String = "",
+    var username: String = "",
     var phone: String = "",
-    var bio:String = "",
-    var fullname:String = "",
-    var state:String = "",
-    var photoUrl:String = "empty"
+    var bio: String = "",
+    var fullname: String = "",
+    var state: String = "",
+    var photoUrl: String = "empty",
+
+    var text: String = "",
+    var type: String = "",
+    var from: String = "",
+    var timeStamp: String = ""
 )
