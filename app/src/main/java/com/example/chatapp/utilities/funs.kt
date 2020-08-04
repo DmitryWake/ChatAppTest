@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun showToast(message: String) {
     Toast.makeText(APP_ACTIVITY, message, Toast.LENGTH_SHORT).show()
@@ -50,7 +52,8 @@ fun Fragment.replaceFragment(fragment: Fragment) {
 }
 
 fun hideKeyboard() {
-    val imm: InputMethodManager = APP_ACTIVITY.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val imm: InputMethodManager =
+        APP_ACTIVITY.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(APP_ACTIVITY.window.decorView.windowToken, 0)
 }
 
@@ -84,4 +87,10 @@ fun initContacts() {
         cursor?.close()
         updatePhonesToDatabase(arrayContacts)
     }
+}
+
+fun String.asTime(): String {
+    val time = Date(this.toLong())
+    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return timeFormat.format(time)
 }

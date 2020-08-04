@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
+import com.example.chatapp.ui.fragments.single_chat.SingleChatFragment
 import com.example.chatapp.utilities.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -58,7 +59,11 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                     holder.status.text = contact.state
                     holder.photo.downloadAndSetImage(contact.photoUrl)
                     holder.itemView.setOnClickListener {
-                        replaceFragment(SingleChatFragment(model))
+                        replaceFragment(
+                            SingleChatFragment(
+                                model
+                            )
+                        )
                     }
                 }
                 refUsers.addValueEventListener(refUsersListner)

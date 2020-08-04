@@ -1,9 +1,11 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.fragments.single_chat
 
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
+import com.example.chatapp.ui.fragments.BaseFragment
 import com.example.chatapp.utilities.*
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -18,9 +20,32 @@ class SingleChatFragment(private val contact: CommonModel) :
     private lateinit var receivingUser: UserModel
     private lateinit var toolbarInfo: View
     private lateinit var refUser: DatabaseReference
+    private lateinit var refMessages: DatabaseReference
+    private lateinit var adapter: SingleChatAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var messagesListener: AppValueEventListener
+    private var listMessages = emptyList<CommonModel>()
 
     override fun onResume() {
         super.onResume()
+        initToolbar()
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        recyclerView = chat_recycler_view
+        adapter = SingleChatAdapter()
+        refMessages = REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID).child(contact.id)
+        recyclerView.adapter = adapter
+        messagesListener = AppValueEventListener {dataSnapshot ->
+            listMessages = dataSnapshot.children.map { it.getCommonModel() }
+            adapter.setList(listMessages)
+            recyclerView.smoothScrollToPosition(adapter.itemCount)
+        }
+        refMessages.addValueEventListener(messagesListener)
+    }
+
+    private fun initToolbar() {
         toolbarInfo = APP_ACTIVITY.toolbar.toolbar_info
         toolbarInfo.visibility = View.VISIBLE
         listenerInfoToolbar = AppValueEventListener {
@@ -51,5 +76,6 @@ class SingleChatFragment(private val contact: CommonModel) :
         super.onPause()
         toolbarInfo.visibility = View.GONE
         refUser.removeEventListener(listenerInfoToolbar)
+        refMessages.removeEventListener(messagesListener)
     }
 }
