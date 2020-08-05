@@ -1,9 +1,12 @@
-package com.example.chatapp.utilities
+package com.example.chatapp.database
 
 import android.net.Uri
-import android.provider.ContactsContract
+import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
+import com.example.chatapp.utilities.APP_ACTIVITY
+import com.example.chatapp.utilities.AppValueEventListener
+import com.example.chatapp.utilities.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
@@ -50,7 +53,9 @@ fun initFireBase() {
 }
 
 inline fun putUrlToDatabase(url: String, crossinline function: () -> Unit) {
-    REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_PHOTO_URL)
+    REF_DATABASE_ROOT.child(NODE_USERS).child(
+        CURRENT_UID
+    ).child(CHILD_PHOTO_URL)
         .setValue(url)
         .addOnSuccessListener {
             function()
@@ -81,11 +86,15 @@ inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline funct
 }
 
 inline fun initUser(crossinline function: () -> Unit) {
-    REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID)
+    REF_DATABASE_ROOT.child(NODE_USERS).child(
+        CURRENT_UID
+    )
         .addListenerForSingleValueEvent(AppValueEventListener {
-            USER = it.getValue(UserModel::class.java) ?: UserModel()
+            USER =
+                it.getValue(UserModel::class.java) ?: UserModel()
             if (USER.username.isEmpty()) {
-                USER.username = CURRENT_UID
+                USER.username =
+                    CURRENT_UID
             }
             function()
         })
@@ -93,29 +102,34 @@ inline fun initUser(crossinline function: () -> Unit) {
 
 fun updatePhonesToDatabase(arrayContacts: ArrayList<CommonModel>) {
     if (AUTH.currentUser != null) {
-        REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(AppValueEventListener {
-            it.children.forEach { snapshot ->
-                arrayContacts.forEach { contact ->
-                    if (snapshot.key == contact.phone) {
-                        REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID)
-                            .child(snapshot.value.toString())
-                            .child(CHILD_ID)
-                            .setValue(snapshot.value.toString())
-                            .addOnFailureListener {
-                                showToast(it.message.toString())
-                            }
+        REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(
+            AppValueEventListener {
+                it.children.forEach { snapshot ->
+                    arrayContacts.forEach { contact ->
+                        if (snapshot.key == contact.phone) {
+                            REF_DATABASE_ROOT.child(
+                                NODE_PHONES_CONTACTS
+                            ).child(CURRENT_UID)
+                                .child(snapshot.value.toString())
+                                .child(CHILD_ID)
+                                .setValue(snapshot.value.toString())
+                                .addOnFailureListener {
+                                    showToast(it.message.toString())
+                                }
 
-                        REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID)
-                            .child(snapshot.value.toString())
-                            .child(CHILD_FULLNAME)
-                            .setValue(contact.fullname)
-                            .addOnFailureListener {
-                                showToast(it.message.toString())
-                            }
+                            REF_DATABASE_ROOT.child(
+                                NODE_PHONES_CONTACTS
+                            ).child(CURRENT_UID)
+                                .child(snapshot.value.toString())
+                                .child(CHILD_FULLNAME)
+                                .setValue(contact.fullname)
+                                .addOnFailureListener {
+                                    showToast(it.message.toString())
+                                }
+                        }
                     }
                 }
-            }
-        })
+            })
     }
 }
 
@@ -131,7 +145,8 @@ fun sendMessage(message: String, receivingUserID: String, typeText: String, func
     val messageKey = REF_DATABASE_ROOT.child(refDialogUser).push().key
 
     val mapMessage = hashMapOf<String, Any>()
-    mapMessage[CHILD_FROM] = CURRENT_UID
+    mapMessage[CHILD_FROM] =
+        CURRENT_UID
     mapMessage[CHILD_TYPE] = typeText
     mapMessage[CHILD_TEXT] = message
     mapMessage[CHILD_TIMESTAMP] = ServerValue.TIMESTAMP
@@ -148,4 +163,57 @@ fun sendMessage(message: String, receivingUserID: String, typeText: String, func
         .addOnFailureListener {
             showToast(it.message.toString())
         }
+}
+
+fun updateCurrentUsername(newUsername: String) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(
+        CURRENT_UID
+    ).child(CHILD_USERNAME).setValue(newUsername)
+        .addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            deleteOldUsername(newUsername)
+        }.addOnFailureListener {
+            showToast(it.message.toString())
+        }
+}
+
+private fun deleteOldUsername(newUsername: String) {
+    REF_DATABASE_ROOT.child(NODE_USERNAMES).child(
+        USER.username
+    ).removeValue()
+        .addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            APP_ACTIVITY.supportFragmentManager.popBackStack()
+            USER.username = newUsername
+        }.addOnFailureListener {
+            showToast(it.message.toString())
+        }
+}
+
+fun setBioToDatabase(newBio: String) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(
+        CURRENT_UID
+    ).child(CHILD_BIO).setValue(newBio)
+        .addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            USER.bio = newBio
+            APP_ACTIVITY.supportFragmentManager.popBackStack()
+        }.addOnFailureListener {
+            showToast(it.message.toString())
+        }
+}
+
+fun setFullnameToDatabase(fullname: String) {
+    REF_DATABASE_ROOT.child(
+        NODE_USERS
+    ).child(CURRENT_UID).child(
+        CHILD_FULLNAME
+    ).setValue(fullname).addOnSuccessListener {
+        showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+        USER.fullname = fullname
+        APP_ACTIVITY.appDrawer.updateHeader()
+        APP_ACTIVITY.supportFragmentManager.popBackStack()
+    }.addOnFailureListener {
+        showToast(it.message.toString())
+    }
 }

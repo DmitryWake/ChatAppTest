@@ -17,7 +17,6 @@ open class BaseFragment(layout: Int) : Fragment(layout) {
 
     override fun onStop() {
         super.onStop()
-        APP_ACTIVITY.appDrawer.enableDrawer()
         hideKeyboard()
     }
 }

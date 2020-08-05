@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.example.chatapp.activities.RegisterActivity
+import com.example.chatapp.database.AUTH
+import com.example.chatapp.database.initFireBase
+import com.example.chatapp.database.initUser
 import com.example.chatapp.databinding.ActivityMainBinding
 import com.example.chatapp.ui.objects.AppDrawer
-import com.example.chatapp.ui.fragments.ChatFragment
+import com.example.chatapp.ui.fragments.MainFragment
+import com.example.chatapp.ui.fragments.register.EnterPhoneNumberFragment
 import com.example.chatapp.utilities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,12 +46,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
+        setSupportActionBar(toolbar)
         if (AUTH.currentUser != null) {
-            setSupportActionBar(toolbar)
             appDrawer.create()
-            replaceFragment(ChatFragment(), false)
+            replaceFragment(MainFragment(), false)
         } else {
-            replaceActivity(RegisterActivity())
+            replaceFragment(EnterPhoneNumberFragment(), false)
         }
     }
 

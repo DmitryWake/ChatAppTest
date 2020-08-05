@@ -1,9 +1,8 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.fragments.register
 
 import androidx.fragment.app.Fragment
-import com.example.chatapp.MainActivity
 import com.example.chatapp.R
-import com.example.chatapp.activities.RegisterActivity
+import com.example.chatapp.database.*
 import com.example.chatapp.utilities.*
 
 import com.google.firebase.FirebaseException
@@ -31,16 +30,20 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
                         dataMap[CHILD_PHONE] = phoneNumber
                         dataMap[CHILD_USERNAME] = uid
 
-                        REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                        REF_DATABASE_ROOT.child(
+                            NODE_PHONES
+                        ).child(phoneNumber).setValue(uid)
                             .addOnFailureListener {
                                 showToast(it.message.toString())
                             }
                             .addOnSuccessListener {
-                                REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
+                                REF_DATABASE_ROOT.child(
+                                    NODE_USERS
+                                ).child(uid)
                                     .updateChildren(dataMap)
                                     .addOnSuccessListener {
                                         showToast("Добро пожаловать")
-                                        (activity as RegisterActivity).replaceActivity(MainActivity())
+                                        restartActivity()
                                     }
                                     .addOnFailureListener {
                                         showToast(it.message.toString())
@@ -57,7 +60,12 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             }
 
             override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
-                replaceFragment(EnterCodeFragment(phoneNumber, id))
+                replaceFragment(
+                    EnterCodeFragment(
+                        phoneNumber,
+                        id
+                    )
+                )
             }
 
         }
@@ -80,7 +88,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             phoneNumber,
             60,
             TimeUnit.SECONDS,
-            activity as RegisterActivity,
+            APP_ACTIVITY,
             callback
         )
     }

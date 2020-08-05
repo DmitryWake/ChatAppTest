@@ -4,14 +4,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.widget.Toolbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.chatapp.R
 import com.example.chatapp.ui.fragments.ContactsFragment
 import com.example.chatapp.ui.fragments.SettingsFragment
 import com.example.chatapp.utilities.APP_ACTIVITY
-import com.example.chatapp.utilities.USER
+import com.example.chatapp.database.USER
 import com.example.chatapp.utilities.downloadAndSetImage
 import com.example.chatapp.utilities.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader
@@ -122,13 +120,14 @@ class AppDrawer() {
 
     private fun clickToItem(position: Int) {
         when (position) {
-            6 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
-            3 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
+            6 -> replaceFragment(SettingsFragment())
+            3 -> replaceFragment(ContactsFragment())
         }
     }
 
     private fun createHeader() {
-        currentProfile = ProfileDrawerItem().withName(USER.fullname).withEmail(USER.phone)
+        currentProfile = ProfileDrawerItem().withName(USER.fullname).withEmail(
+            USER.phone)
             .withIcon(USER.photoUrl)
             .withIdentifier(200)
         header = AccountHeaderBuilder()
@@ -140,7 +139,8 @@ class AppDrawer() {
     }
 
     fun updateHeader() {
-        currentProfile.withName(USER.fullname).withEmail(USER.phone)
+        currentProfile.withName(USER.fullname).withEmail(
+            USER.phone)
             .withIcon(USER.photoUrl)
         header.updateProfile(currentProfile)
     }

@@ -1,9 +1,8 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.fragments.register
 
 import androidx.fragment.app.Fragment
-import com.example.chatapp.MainActivity
 import com.example.chatapp.R
-import com.example.chatapp.activities.RegisterActivity
+import com.example.chatapp.database.*
 import com.example.chatapp.utilities.*
 
 import com.google.firebase.auth.PhoneAuthProvider
@@ -15,7 +14,7 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) :
 
     override fun onStart() {
         super.onStart()
-        (activity as RegisterActivity).title = phoneNumber
+        APP_ACTIVITY.title = phoneNumber
         register_input_code.addTextChangedListener(AppTextWatcher {
             val string = register_input_code.text.toString()
             if (string.length == 6) {
@@ -35,15 +34,19 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) :
                 dataMap[CHILD_PHONE] = phoneNumber
                 dataMap[CHILD_USERNAME] = uid
 
-                REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                REF_DATABASE_ROOT.child(
+                    NODE_PHONES
+                ).child(phoneNumber).setValue(uid)
                     .addOnFailureListener {
                         showToast(it.message.toString())
                     }
                     .addOnSuccessListener {
-                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap)
+                        REF_DATABASE_ROOT.child(
+                            NODE_USERS
+                        ).child(uid).updateChildren(dataMap)
                             .addOnSuccessListener {
                                 showToast("Добро пожаловать")
-                                (activity as RegisterActivity).replaceActivity(MainActivity())
+                                restartActivity()
                             }
                             .addOnFailureListener {
                                 showToast(it.message.toString())

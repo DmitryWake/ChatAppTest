@@ -3,6 +3,7 @@ package com.example.chatapp.ui.fragments.single_chat
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
+import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
 import com.example.chatapp.ui.fragments.BaseFragment
@@ -35,7 +36,9 @@ class SingleChatFragment(private val contact: CommonModel) :
     private fun initRecyclerView() {
         recyclerView = chat_recycler_view
         adapter = SingleChatAdapter()
-        refMessages = REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID).child(contact.id)
+        refMessages = REF_DATABASE_ROOT.child(
+            NODE_MESSAGES
+        ).child(CURRENT_UID).child(contact.id)
         recyclerView.adapter = adapter
         messagesListener = AppValueEventListener {dataSnapshot ->
             listMessages = dataSnapshot.children.map { it.getCommonModel() }
@@ -52,13 +55,19 @@ class SingleChatFragment(private val contact: CommonModel) :
             receivingUser = it.getUserModel()
             initInfoToolbar()
         }
-        refUser = REF_DATABASE_ROOT.child(NODE_USERS).child(contact.id)
+        refUser = REF_DATABASE_ROOT.child(
+            NODE_USERS
+        ).child(contact.id)
         refUser.addValueEventListener(listenerInfoToolbar)
         chat_btn_send_message.setOnClickListener {
             val message = chat_input_message.text.toString()
             if (message.isEmpty()) {
                 showToast("Введите сообщение")
-            } else sendMessage(message, contact.id, TYPE_TEXT) {
+            } else sendMessage(
+                message,
+                contact.id,
+                TYPE_TEXT
+            ) {
                 chat_input_message.setText("")
             }
         }

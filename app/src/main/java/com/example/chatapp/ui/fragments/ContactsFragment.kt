@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
+import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.ui.fragments.single_chat.SingleChatFragment
 import com.example.chatapp.utilities.*
@@ -33,7 +34,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
 
     private fun initRecyclerView() {
         recyclerView = contacts_recycler_view
-        refContacts = REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID)
+        refContacts = REF_DATABASE_ROOT.child(
+            NODE_PHONES_CONTACTS
+        ).child(CURRENT_UID)
 
         val options = FirebaseRecyclerOptions.Builder<CommonModel>()
             .setQuery(refContacts, CommonModel::class.java)
@@ -50,7 +53,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                 position: Int,
                 model: CommonModel
             ) {
-                refUsers = REF_DATABASE_ROOT.child(NODE_USERS).child(model.id)
+                refUsers = REF_DATABASE_ROOT.child(
+                    NODE_USERS
+                ).child(model.id)
                 refUsersListner = AppValueEventListener {
                     val contact = it.getCommonModel()
                     if (contact.fullname.isEmpty()) {
