@@ -53,7 +53,7 @@
             android:id="@+id/chat_received_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:gravity="start"
             android:padding="@dimen/appPadding"
             android:text="Текст сообщения"
             android:textColor="@color/colorBlack"

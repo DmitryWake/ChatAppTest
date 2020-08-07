@@ -1,6 +1,7 @@
 package com.example.chatapp.ui.fragments.single_chat
 
 import android.view.View
+import android.widget.AbsListView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.database.*
@@ -8,6 +9,9 @@ import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
 import com.example.chatapp.ui.fragments.BaseFragment
 import com.example.chatapp.utilities.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_single_chat.*
@@ -24,8 +28,12 @@ class SingleChatFragment(private val contact: CommonModel) :
     private lateinit var refMessages: DatabaseReference
     private lateinit var adapter: SingleChatAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var messagesListener: AppValueEventListener
-    private var listMessages = emptyList<CommonModel>()
+    private lateinit var messagesListener: AppChildEventListener
+    private var countMessages = 10
+    private var isScrolling = false
+    private var smoothScrollToPosition = true
+
+    private var listListeners = mutableListOf<AppChildEventListener>()
 
     override fun onResume() {
         super.onResume()
@@ -40,12 +48,40 @@ class SingleChatFragment(private val contact: CommonModel) :
             NODE_MESSAGES
         ).child(CURRENT_UID).child(contact.id)
         recyclerView.adapter = adapter
-        messagesListener = AppValueEventListener {dataSnapshot ->
-            listMessages = dataSnapshot.children.map { it.getCommonModel() }
-            adapter.setList(listMessages)
-            recyclerView.smoothScrollToPosition(adapter.itemCount)
+
+        messagesListener = AppChildEventListener {
+            adapter.addItem(it.getCommonModel())
+            if (smoothScrollToPosition) {
+                recyclerView.smoothScrollToPosition(adapter.itemCount)
+            }
         }
-        refMessages.addValueEventListener(messagesListener)
+
+        refMessages.limitToLast(countMessages).addChildEventListener(messagesListener)
+        listListeners.add(messagesListener)
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (isScrolling && dy < 0) {
+                    updateData()
+                }
+            }
+        })
+    }
+
+    private fun updateData() {
+        smoothScrollToPosition = false
+        isScrolling = false
+        countMessages += 10
+        refMessages.limitToLast(countMessages).addChildEventListener(messagesListener)
+        listListeners.add(messagesListener)
     }
 
     private fun initToolbar() {
@@ -60,6 +96,7 @@ class SingleChatFragment(private val contact: CommonModel) :
         ).child(contact.id)
         refUser.addValueEventListener(listenerInfoToolbar)
         chat_btn_send_message.setOnClickListener {
+            smoothScrollToPosition = true
             val message = chat_input_message.text.toString()
             if (message.isEmpty()) {
                 showToast("Введите сообщение")
@@ -85,6 +122,8 @@ class SingleChatFragment(private val contact: CommonModel) :
         super.onPause()
         toolbarInfo.visibility = View.GONE
         refUser.removeEventListener(listenerInfoToolbar)
-        refMessages.removeEventListener(messagesListener)
+        listListeners.forEach {
+            refMessages.removeEventListener(it)
+        }
     }
 }
