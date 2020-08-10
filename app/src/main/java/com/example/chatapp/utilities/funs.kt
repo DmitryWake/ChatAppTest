@@ -86,3 +86,10 @@ fun String.asTime(): String {
     val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     return timeFormat.format(time)
 }
+
+fun String.formatPhoneNumber(): String {
+    return if (this.first() == '8')
+        "+7" + this.substring(1)
+    else
+        this
+}

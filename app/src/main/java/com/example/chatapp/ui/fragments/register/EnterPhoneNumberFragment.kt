@@ -83,7 +83,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
     }
 
     private fun authUser() {
-        phoneNumber = register_input_phone_number.text.toString()
+        phoneNumber = register_input_phone_number.text.toString().formatPhoneNumber()
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             phoneNumber,
             60,

@@ -4,10 +4,7 @@ import android.net.Uri
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
-import com.example.chatapp.utilities.APP_ACTIVITY
-import com.example.chatapp.utilities.AppValueEventListener
-import com.example.chatapp.utilities.TYPE_MESSAGE_IMAGE
-import com.example.chatapp.utilities.showToast
+import com.example.chatapp.utilities.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
@@ -109,7 +106,7 @@ fun updatePhonesToDatabase(arrayContacts: ArrayList<CommonModel>) {
             AppValueEventListener {
                 it.children.forEach { snapshot ->
                     arrayContacts.forEach { contact ->
-                        if (snapshot.key == contact.phone) {
+                        if (snapshot.key == contact.phone.formatPhoneNumber()) {
                             REF_DATABASE_ROOT.child(
                                 NODE_PHONES_CONTACTS
                             ).child(CURRENT_UID)
