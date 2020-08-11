@@ -9,7 +9,7 @@
     <string name="settings_default_number">+7911111111</string>
     <string name="settings_label_phoneNumber">Нажмите, чтобы изменить номер</string>
     <string name="settings_default_login">User Name</string>
-    <string name="setting_label_login">Имя пользователя</string>
+    <string name="setting_label_login">Сменить логин</string>
     <string name="settings_default_bio">О себе</string>
     <string name="settings_label_bio">Расскажите что-нибудь о себе.</string>
     <string name="settings_menu_change_name">Изменить имя</string>

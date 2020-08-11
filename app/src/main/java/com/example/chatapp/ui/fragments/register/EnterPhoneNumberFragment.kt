@@ -25,33 +25,35 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
                     if (it.isSuccessful) {
                         val uid = AUTH.currentUser?.uid.toString()
                         val dataMap = mutableMapOf<String, Any>()
-
                         dataMap[CHILD_ID] = uid
                         dataMap[CHILD_PHONE] = phoneNumber
-                        dataMap[CHILD_USERNAME] = uid
 
-                        REF_DATABASE_ROOT.child(
-                            NODE_PHONES
-                        ).child(phoneNumber).setValue(uid)
-                            .addOnFailureListener {
-                                showToast(it.message.toString())
-                            }
-                            .addOnSuccessListener {
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
+                            .addListenerForSingleValueEvent(AppValueEventListener {
+
+                                if (!it.hasChild(CHILD_USERNAME))
+                                    dataMap[CHILD_USERNAME] = uid
+
                                 REF_DATABASE_ROOT.child(
-                                    NODE_USERS
-                                ).child(uid)
-                                    .updateChildren(dataMap)
-                                    .addOnSuccessListener {
-                                        showToast("Добро пожаловать")
-                                        restartActivity()
-                                    }
+                                    NODE_PHONES
+                                ).child(phoneNumber).setValue(uid)
                                     .addOnFailureListener {
                                         showToast(it.message.toString())
                                     }
-                            }
-                    } else {
-                        showToast(it.exception?.message.toString())
-                    }
+                                    .addOnSuccessListener {
+                                        REF_DATABASE_ROOT.child(
+                                            NODE_USERS
+                                        ).child(uid).updateChildren(dataMap)
+                                            .addOnSuccessListener {
+                                                showToast("Добро пожаловать")
+                                                restartActivity()
+                                            }
+                                            .addOnFailureListener {
+                                                showToast(it.message.toString())
+                                            }
+                                    }
+                            })
+                    } else showToast(it.exception?.message.toString())
                 }
             }
 
