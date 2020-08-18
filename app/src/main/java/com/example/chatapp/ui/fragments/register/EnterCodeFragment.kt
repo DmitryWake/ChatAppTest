@@ -35,10 +35,9 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) :
 
                 REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
                     .addListenerForSingleValueEvent(AppValueEventListener {
-
-                        if (!it.hasChild(CHILD_USERNAME))
+                        if (!it.hasChild(CHILD_USERNAME)) {
                             dataMap[CHILD_USERNAME] = uid
-
+                        }
                         REF_DATABASE_ROOT.child(
                             NODE_PHONES
                         ).child(phoneNumber).setValue(uid)
@@ -48,7 +47,8 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) :
                             .addOnSuccessListener {
                                 REF_DATABASE_ROOT.child(
                                     NODE_USERS
-                                ).child(uid).updateChildren(dataMap)
+                                ).child(uid)
+                                    .updateChildren(dataMap)
                                     .addOnSuccessListener {
                                         showToast("Добро пожаловать")
                                         restartActivity()
