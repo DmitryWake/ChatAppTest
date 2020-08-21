@@ -16,6 +16,7 @@ import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
 import com.example.chatapp.ui.fragments.BaseFragment
+import com.example.chatapp.ui.fragments.message_recycler_view.views.AppViewFactory
 import com.example.chatapp.utilities.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -124,11 +125,11 @@ class SingleChatFragment(private val contact: CommonModel) :
             val message = it.getCommonModel()
 
             if (smoothScrollToPosition) {
-                adapter.addItemToBottom(message) {
+                adapter.addItemToBottom(AppViewFactory.getView(message)) {
                     recyclerView.smoothScrollToPosition(adapter.itemCount)
                 }
             } else {
-                adapter.addItemToTop(message) {
+                adapter.addItemToTop(AppViewFactory.getView(message)) {
                     swipeRefreshLayout.isRefreshing = false
                 }
             }
