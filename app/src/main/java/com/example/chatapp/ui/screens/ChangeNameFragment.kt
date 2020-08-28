@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.screens
 
 import com.example.chatapp.R
 import com.example.chatapp.database.*

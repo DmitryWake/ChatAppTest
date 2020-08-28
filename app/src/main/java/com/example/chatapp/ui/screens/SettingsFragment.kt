@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.screens
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent

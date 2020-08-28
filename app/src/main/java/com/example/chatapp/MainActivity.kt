@@ -10,8 +10,8 @@ import com.example.chatapp.database.initFireBase
 import com.example.chatapp.database.initUser
 import com.example.chatapp.databinding.ActivityMainBinding
 import com.example.chatapp.ui.objects.AppDrawer
-import com.example.chatapp.ui.fragments.MainFragment
-import com.example.chatapp.ui.fragments.register.EnterPhoneNumberFragment
+import com.example.chatapp.ui.screens.MainFragment
+import com.example.chatapp.ui.screens.register.EnterPhoneNumberFragment
 import com.example.chatapp.utilities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

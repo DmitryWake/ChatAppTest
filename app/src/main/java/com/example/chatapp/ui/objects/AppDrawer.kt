@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.chatapp.R
-import com.example.chatapp.ui.fragments.ContactsFragment
-import com.example.chatapp.ui.fragments.SettingsFragment
+import com.example.chatapp.ui.screens.ContactsFragment
+import com.example.chatapp.ui.screens.SettingsFragment
 import com.example.chatapp.utilities.APP_ACTIVITY
 import com.example.chatapp.database.USER
 import com.example.chatapp.utilities.downloadAndSetImage

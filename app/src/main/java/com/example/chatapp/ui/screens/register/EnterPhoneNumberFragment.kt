@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments.register
+package com.example.chatapp.ui.screens.register
 
 import androidx.fragment.app.Fragment
 import com.example.chatapp.R

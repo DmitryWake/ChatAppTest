@@ -1,8 +1,7 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.screens
 
 import androidx.fragment.app.Fragment
 import android.view.View
-import com.example.chatapp.MainActivity
 import com.example.chatapp.utilities.APP_ACTIVITY
 import com.example.chatapp.utilities.hideKeyboard
 

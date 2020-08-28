@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments.single_chat
+package com.example.chatapp.ui.screens.single_chat
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,8 +15,8 @@ import com.example.chatapp.R
 import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
-import com.example.chatapp.ui.fragments.BaseFragment
-import com.example.chatapp.ui.fragments.message_recycler_view.views.AppViewFactory
+import com.example.chatapp.ui.screens.BaseFragment
+import com.example.chatapp.ui.message_recycler_view.views.AppViewFactory
 import com.example.chatapp.utilities.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -102,8 +102,8 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     private fun attachFile() {
         CropImage.activity()
-            .setAspectRatio(1, 1)
-            .setRequestedSize(300, 300)
+            //.setAspectRatio(1, 1)
+            //.setRequestedSize(300, 300)
             .start(APP_ACTIVITY, this)
     }
 
@@ -220,5 +220,6 @@ class SingleChatFragment(private val contact: CommonModel) :
     override fun onDestroy() {
         super.onDestroy()
         appVoiceRecorder.releaseRecorder()
+        adapter.onDestroy()
     }
 }

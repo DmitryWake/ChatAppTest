@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments.message_recycler_view.views
+package com.example.chatapp.ui.message_recycler_view.views
 
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.utilities.TYPE_MESSAGE_IMAGE

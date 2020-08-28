@@ -23,9 +23,9 @@ class AppVoiceRecorder {
     private fun prepareMediaRecorder() {
         mediaRecorder.apply {
             reset()
-            setAudioSource(MediaRecorder.AudioSource.DEFAULT)
-            setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
-            setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC)
             setOutputFile(file.absolutePath)
             prepare()
         }

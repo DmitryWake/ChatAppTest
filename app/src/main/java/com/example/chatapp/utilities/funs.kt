@@ -50,7 +50,8 @@ fun hideKeyboard() {
 }
 
 fun ImageView.downloadAndSetImage(url: String) {
-    Picasso.get().load(url).fit().placeholder(R.drawable.default_photo).into(this)
+    Picasso.get().load(url).fit()
+        .placeholder(R.drawable.default_photo).into(this)
 }
 
 fun initContacts() {

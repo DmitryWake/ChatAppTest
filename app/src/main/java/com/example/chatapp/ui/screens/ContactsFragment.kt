@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.fragments
+package com.example.chatapp.ui.screens
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
-import com.example.chatapp.ui.fragments.single_chat.SingleChatFragment
+import com.example.chatapp.ui.screens.single_chat.SingleChatFragment
 import com.example.chatapp.utilities.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
