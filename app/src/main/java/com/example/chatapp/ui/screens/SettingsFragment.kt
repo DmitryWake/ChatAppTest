@@ -21,6 +21,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         initFields()
     }
 
+    override fun onPause() {
+        super.onPause()
+        settings_user_photo.setOnClickListener(null)
+    }
+
     private fun initFields() {
         settings_bio.text = USER.bio
         settings_full_name.text = USER.fullname
@@ -37,6 +42,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             changePhotoUser()
         }
         settings_user_photo.downloadAndSetImage(USER.photoUrl)
+        settings_user_photo.setOnClickListener {
+            replaceFragment(FullSizeImageFragment(USER.photoUrl))
+        }
     }
 
     private fun changePhotoUser() {

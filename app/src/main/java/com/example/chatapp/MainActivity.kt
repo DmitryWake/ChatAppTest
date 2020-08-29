@@ -1,13 +1,13 @@
 package com.example.chatapp
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.example.chatapp.database.AUTH
-import com.example.chatapp.database.initFireBase
-import com.example.chatapp.database.initUser
+import com.example.chatapp.database.*
 import com.example.chatapp.databinding.ActivityMainBinding
 import com.example.chatapp.ui.objects.AppDrawer
 import com.example.chatapp.ui.screens.MainFragment
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         AppStates.updateState(AppStates.ONLINE)
+        checkVersion()
     }
 
     private fun initFunc() {

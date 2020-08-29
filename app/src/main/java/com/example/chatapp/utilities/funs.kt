@@ -1,14 +1,19 @@
 package com.example.chatapp.utilities
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.provider.ContactsContract
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import com.example.chatapp.MainActivity
 import com.example.chatapp.R
+import com.example.chatapp.database.APP_VERSION
 import com.example.chatapp.database.updatePhonesToDatabase
 import com.example.chatapp.models.CommonModel
 import com.squareup.picasso.Picasso
@@ -93,4 +98,16 @@ fun String.formatPhoneNumber(): String {
         "+7" + this.substring(1)
     else
         this
+}
+
+fun updateVersion() {
+    val builder = AlertDialog.Builder(APP_ACTIVITY)
+    builder.setTitle("Доступно обновление!")
+        .setMessage("Ваша версия приложения $APP_VERSION устарела. Обновить приложение до новой версии?")
+        .setNegativeButton("Обновить", DialogInterface.OnClickListener { dialog, which ->
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://yadi.sk/d/ApVlzzNRluTcxw"))
+            startActivity(APP_ACTIVITY, browserIntent, null)
+        })
+    val alertDialog = builder.create()
+    alertDialog.show()
 }

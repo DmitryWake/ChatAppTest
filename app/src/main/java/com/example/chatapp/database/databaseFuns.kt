@@ -4,10 +4,7 @@ import android.net.Uri
 import com.example.chatapp.R
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
-import com.example.chatapp.utilities.APP_ACTIVITY
-import com.example.chatapp.utilities.AppValueEventListener
-import com.example.chatapp.utilities.formatPhoneNumber
-import com.example.chatapp.utilities.showToast
+import com.example.chatapp.utilities.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -266,4 +263,12 @@ fun getFileFromStorage(file: File, fileUrl: String, function: () -> Unit) {
         .addOnFailureListener {
             showToast(it.message.toString())
         }
+}
+
+fun checkVersion() {
+    REF_DATABASE_ROOT.child(CHILD_VERSION).addValueEventListener(AppValueEventListener{
+        val tmp = APP_VERSION == it.value.toString()
+        if (!tmp)
+            updateVersion()
+    })
 }

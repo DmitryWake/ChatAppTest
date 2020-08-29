@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
 
+const val APP_VERSION = "0.101"
+
 lateinit var AUTH: FirebaseAuth
 lateinit var CURRENT_UID: String
 lateinit var REF_DATABASE_ROOT: DatabaseReference
@@ -30,3 +32,4 @@ const val CHILD_TYPE = "type"
 const val CHILD_FROM = "from"
 const val CHILD_TIMESTAMP = "timeStamp"
 const val CHILD_FILE_URL = "fileUrl"
+const val CHILD_VERSION = "version"
