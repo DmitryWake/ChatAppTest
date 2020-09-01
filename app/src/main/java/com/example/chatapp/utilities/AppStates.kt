@@ -5,7 +5,8 @@ import com.example.chatapp.database.*
 enum class AppStates(val state: String) {
     ONLINE("В сети"),
     OFFLINE("Был недавно"),
-    TYPING("Печатает...");
+    TYPING("Печатает..."),
+    RECORDING("Записывает голосовое сообщение...");
 
     companion object {
         fun updateState(appStates: AppStates) {

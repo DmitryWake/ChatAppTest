@@ -41,6 +41,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     private lateinit var messagesListener: AppChildEventListener
     private var countMessages = 10
     private var isScrolling = false
+    private var isRecording = false
     private var smoothScrollToPosition = true
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var layoutManager: LinearLayoutManager
@@ -64,10 +65,14 @@ class SingleChatFragment(private val contact: CommonModel) :
                 chat_btn_send_message.visibility = View.GONE
                 chat_btn_attach.visibility = View.VISIBLE
                 chat_btn_voice.visibility = View.VISIBLE
+                if (!isRecording)
+                    AppStates.updateState(AppStates.ONLINE)
             } else {
                 chat_btn_send_message.visibility = View.VISIBLE
                 chat_btn_attach.visibility = View.GONE
                 chat_btn_voice.visibility = View.GONE
+                if (!isRecording)
+                    AppStates.updateState(AppStates.TYPING)
             }
         })
 
@@ -77,6 +82,8 @@ class SingleChatFragment(private val contact: CommonModel) :
             chat_btn_voice.setOnTouchListener { v, event ->
                 if (checkPermission(RECORD_AUDIO)) {
                     if (event.action == MotionEvent.ACTION_DOWN) {
+                        AppStates.updateState(AppStates.RECORDING)
+                        isRecording = true
                         chat_input_message.setText("Запись")
                         chat_btn_voice.setColorFilter(
                             ContextCompat.getColor(
@@ -87,6 +94,8 @@ class SingleChatFragment(private val contact: CommonModel) :
                         val messageKey = getMessageKey(contact.id)
                         appVoiceRecorder.startRecord(messageKey)
                     } else if (event.action == MotionEvent.ACTION_UP) {
+                        AppStates.updateState(AppStates.ONLINE)
+                        isRecording = false
                         chat_input_message.setText("")
                         chat_btn_voice.colorFilter = null
                         appVoiceRecorder.stopRecord { file, messageKey ->

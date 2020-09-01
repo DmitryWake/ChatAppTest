@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
 
-const val APP_VERSION = "0.101"
+const val APP_VERSION = "0.11"
 
 lateinit var AUTH: FirebaseAuth
 lateinit var CURRENT_UID: String
