@@ -209,7 +209,13 @@ fun setFullnameToDatabase(fullname: String) {
     }
 }
 
-fun sendMessageAsFile(receivingUserID: String, fileUrl: String, messageKey: String, typeMessage: String) {
+fun sendMessageAsFile(
+    receivingUserID: String,
+    fileUrl: String,
+    messageKey: String,
+    typeMessage: String,
+    filename: String
+) {
     val refDialogUser = "$NODE_MESSAGES/$CURRENT_UID/$receivingUserID"
     val refDialogReceivingUser = "$NODE_MESSAGES/$receivingUserID/$CURRENT_UID"
 
@@ -221,6 +227,7 @@ fun sendMessageAsFile(receivingUserID: String, fileUrl: String, messageKey: Stri
     mapMessage[CHILD_TIMESTAMP] =
         ServerValue.TIMESTAMP
     mapMessage[CHILD_FILE_URL] = fileUrl
+    mapMessage[CHILD_TEXT] = filename
 
     val mapDialog = hashMapOf<String, Any>()
     mapDialog["$refDialogUser/$messageKey"] = mapMessage
@@ -239,7 +246,13 @@ fun getMessageKey(id: String) =
     ).child(id)
         .push().key.toString()
 
-fun uploadFileToStorage(uri: Uri, messageKey: String, receivedID: String, typeMessage: String) {
+fun uploadFileToStorage(
+    uri: Uri,
+    messageKey: String,
+    receivedID: String,
+    typeMessage: String,
+    filename: String = ""
+) {
     val path = REF_STORAGE_ROOT.child(
         FOLDER_FILES
     ).child(messageKey)
@@ -250,7 +263,8 @@ fun uploadFileToStorage(uri: Uri, messageKey: String, receivedID: String, typeMe
                 receivedID,
                 it,
                 messageKey,
-                typeMessage
+                typeMessage,
+                filename
             )
         }
     }
@@ -266,10 +280,10 @@ fun getFileFromStorage(file: File, fileUrl: String, function: () -> Unit) {
 }
 
 fun checkVersion() {
-    REF_DATABASE_ROOT.child(CHILD_VERSION).addValueEventListener(AppValueEventListener{
+    REF_DATABASE_ROOT.child(CHILD_VERSION).addValueEventListener(AppValueEventListener {
         if (APP_VERSION.toDouble() > it.value.toString().toDouble())
             updateVersionInDatabase()
-        else
+        else if (APP_VERSION.toDouble() != it.value.toString().toDouble())
             updateVersion()
     })
 }
