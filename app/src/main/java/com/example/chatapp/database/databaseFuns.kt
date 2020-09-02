@@ -267,8 +267,15 @@ fun getFileFromStorage(file: File, fileUrl: String, function: () -> Unit) {
 
 fun checkVersion() {
     REF_DATABASE_ROOT.child(CHILD_VERSION).addValueEventListener(AppValueEventListener{
-        val tmp = APP_VERSION == it.value.toString()
-        if (!tmp)
+        if (APP_VERSION.toDouble() > it.value.toString().toDouble())
+            updateVersionInDatabase()
+        else
             updateVersion()
     })
+}
+
+fun updateVersionInDatabase() {
+    REF_DATABASE_ROOT.child(CHILD_VERSION).setValue(APP_VERSION).addOnFailureListener {
+        showToast(it.message.toString())
+    }
 }
