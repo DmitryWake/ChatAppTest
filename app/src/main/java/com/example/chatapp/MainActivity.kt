@@ -1,8 +1,6 @@
 package com.example.chatapp
 
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -10,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.example.chatapp.database.*
 import com.example.chatapp.databinding.ActivityMainBinding
 import com.example.chatapp.ui.objects.AppDrawer
-import com.example.chatapp.ui.screens.MainFragment
+import com.example.chatapp.ui.screens.main_list.MainListFragment
 import com.example.chatapp.ui.screens.register.EnterPhoneNumberFragment
 import com.example.chatapp.utilities.*
 import kotlinx.coroutines.CoroutineScope
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         if (AUTH.currentUser != null) {
             appDrawer.create()
-            replaceFragment(MainFragment(), false)
+            replaceFragment(MainListFragment(), false)
         } else {
             replaceFragment(EnterPhoneNumberFragment(), false)
         }

@@ -293,3 +293,24 @@ fun updateVersionInDatabase() {
         showToast(it.message.toString())
     }
 }
+
+fun saveToMainList(id: String, type: String) {
+    val refUser = "$NODE_MAIN_LIST/$CURRENT_UID/$id"
+    val refReceiver = "$NODE_MAIN_LIST/$id/$CURRENT_UID"
+
+    val mapUser = hashMapOf<String, Any>()
+    val mapReceiver = hashMapOf<String, Any>()
+
+    mapUser[CHILD_ID] = id
+    mapUser[CHILD_TYPE] = type
+
+    mapReceiver[CHILD_ID] = CURRENT_UID
+    mapReceiver[CHILD_TYPE] = type
+
+    val commonMap = hashMapOf<String, Any>()
+    commonMap[refUser] = mapUser
+    commonMap[refReceiver] = mapReceiver
+
+    REF_DATABASE_ROOT.updateChildren(commonMap)
+        .addOnFailureListener { showToast(it.message.toString()) }
+}
