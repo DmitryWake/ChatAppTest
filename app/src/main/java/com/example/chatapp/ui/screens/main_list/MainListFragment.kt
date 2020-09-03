@@ -46,13 +46,20 @@ class MainListFragment : Fragment(R.layout.fragment_main_list) {
                         refMessages.child(model.id).limitToLast(1)
                             .addListenerForSingleValueEvent(AppValueEventListener { dataSnapshot_3 ->
                                 val tmpList = dataSnapshot_3.children.map { it.getCommonModel() }
-                                when (tmpList.first().type) {
-                                    TYPE_MESSAGE_VOICE -> newModel.lastMessage = "Голосовое сообщение"
-                                    TYPE_MESSAGE_IMAGE -> newModel.lastMessage = "Изображение"
-                                    else -> newModel.lastMessage = tmpList.first().text
+                                if (tmpList.isEmpty()) {
+                                    newModel.lastMessage = ""
+                                } else {
+                                    when (tmpList.first().type) {
+                                        TYPE_MESSAGE_VOICE -> newModel.lastMessage = "Голосовое сообщение"
+                                        TYPE_MESSAGE_IMAGE -> newModel.lastMessage = "Изображение"
+                                        else -> newModel.lastMessage = tmpList.first().text
+                                    }
+                                    if (tmpList.first().from == CURRENT_UID)
+                                        newModel.lastMessage = "Вы: ${newModel.lastMessage}"
                                 }
                                 if (newModel.fullname.isEmpty())
                                     newModel.fullname = newModel.phone
+
                                 adapter.updateListItems(newModel)
                             })
                     })
@@ -60,5 +67,4 @@ class MainListFragment : Fragment(R.layout.fragment_main_list) {
         })
         recyclerView.adapter = adapter
     }
-
 }

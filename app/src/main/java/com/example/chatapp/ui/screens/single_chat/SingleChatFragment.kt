@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.AbsListView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +16,8 @@ import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
 import com.example.chatapp.ui.screens.BaseFragment
 import com.example.chatapp.ui.message_recycler_view.views.AppViewFactory
+import com.example.chatapp.ui.screens.main_list.MainListFragment
+import com.example.chatapp.ui.screens.settings.ChangeNameFragment
 import com.example.chatapp.utilities.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
@@ -59,6 +60,7 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initFields() {
+        setHasOptionsMenu(true)
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_choice)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         appVoiceRecorder = AppVoiceRecorder()
@@ -249,6 +251,24 @@ class SingleChatFragment(private val contact: CommonModel) :
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        activity?.menuInflater?.inflate(R.menu.single_chat_action_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_clear_chat -> clearChat(contact.id) {
+                showToast("Чат очищен")
+                initRecyclerView()
+            }
+            R.id.menu_delete_chat -> deleteChat(contact.id) {
+                showToast("Чат удален с главного экрана")
+                replaceFragment(MainListFragment())
+            }
+        }
+        return true
     }
 
     override fun onPause() {

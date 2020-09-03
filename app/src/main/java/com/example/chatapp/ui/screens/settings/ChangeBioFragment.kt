@@ -1,7 +1,8 @@
-package com.example.chatapp.ui.screens
+package com.example.chatapp.ui.screens.settings
 
 import com.example.chatapp.R
 import com.example.chatapp.database.*
+import com.example.chatapp.ui.screens.BaseChangeFragment
 import kotlinx.android.synthetic.main.fragment_change_bio.*
 
 
