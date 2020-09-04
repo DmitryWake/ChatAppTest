@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.example.chatapp.R
 import com.example.chatapp.database.*
 import com.example.chatapp.ui.screens.*
+import com.example.chatapp.ui.screens.base.BaseFragment
 import com.example.chatapp.utilities.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView

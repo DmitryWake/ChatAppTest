@@ -1,6 +1,7 @@
 package com.example.chatapp.ui.screens
 
 import com.example.chatapp.R
+import com.example.chatapp.ui.screens.base.BaseFragment
 import com.example.chatapp.utilities.APP_ACTIVITY
 import com.example.chatapp.utilities.downloadAndSetImage
 import kotlinx.android.synthetic.main.fragment_full_size_image.*

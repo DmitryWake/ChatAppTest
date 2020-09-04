@@ -6,10 +6,12 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.chatapp.R
-import com.example.chatapp.ui.screens.ContactsFragment
+import com.example.chatapp.ui.screens.contacts.ContactsFragment
 import com.example.chatapp.ui.screens.settings.SettingsFragment
 import com.example.chatapp.utilities.APP_ACTIVITY
 import com.example.chatapp.database.USER
+import com.example.chatapp.ui.screens.groups.AddContactsAdapter
+import com.example.chatapp.ui.screens.groups.AddContactsFragment
 import com.example.chatapp.utilities.downloadAndSetImage
 import com.example.chatapp.utilities.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader
@@ -122,6 +124,7 @@ class AppDrawer() {
         when (position) {
             6 -> replaceFragment(SettingsFragment())
             3 -> replaceFragment(ContactsFragment())
+            1 -> replaceFragment(AddContactsFragment())
         }
     }
 

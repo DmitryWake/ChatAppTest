@@ -1,7 +1,6 @@
 package com.example.chatapp.ui.screens.single_chat
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.*
@@ -14,10 +13,9 @@ import com.example.chatapp.R
 import com.example.chatapp.database.*
 import com.example.chatapp.models.CommonModel
 import com.example.chatapp.models.UserModel
-import com.example.chatapp.ui.screens.BaseFragment
+import com.example.chatapp.ui.screens.base.BaseFragment
 import com.example.chatapp.ui.message_recycler_view.views.AppViewFactory
 import com.example.chatapp.ui.screens.main_list.MainListFragment
-import com.example.chatapp.ui.screens.settings.ChangeNameFragment
 import com.example.chatapp.utilities.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
@@ -84,6 +82,7 @@ class SingleChatFragment(private val contact: CommonModel) :
         })
 
         chat_btn_attach.setOnClickListener { attach() }
+        chat_btn_
 
         CoroutineScope(Dispatchers.IO).launch {
             chat_btn_voice.setOnTouchListener { v, event ->

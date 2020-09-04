@@ -4,8 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_default_username">User Name</string>
-    <string name="settings_default_status">В сети</string>
-    <string name="settings_text_account">Аккаунт</string>
+    <string name="settings_default_status">Online</string>
+    <string name="settings_text_account">Account</string>
     <string name="settings_default_number">+7911111111</string>
     <string name="settings_label_phoneNumber">Нажмите, чтобы изменить номер</string>
     <string name="settings_default_login">User Name</string>
@@ -29,4 +29,11 @@
     <string name="settings_input_bio">Напишите что-нибудь о себе</string>
     <string name="clear_chat">Очистить чат</string>
     <string name="delete_chat">Удалить чат c главного экрана</string>
+    <string name="create_group">Создать группу</string>
+
+    <plurals name="count_members">
+        <item quantity="one">%d участник</item>
+        <item quantity="few">%d участника</item>
+        <item quantity="other">%d участников</item>
+    </plurals>
 </resources>
